@@ -1,0 +1,44 @@
+{
+  "name": "Next",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev": "env-cmd -f .env next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "cookie": "^0.4.1",
+    "dotenv": "^8.2.0",
+    "env-cmd": "^10.1.0",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^9.5.2",
+    "pg": "^8.3.3",
+    "react": "^17.0.0-rc.0",
+    "react-dom": "^17.0.0-rc.0",
+    "styled-components": "^5.1.1"
+  },
+  "homepage": "https://mileweb.000webhostapp.com/tourist",
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.11.1"
+  },
+  "babel": {
+    "presets": [
+      "next/babel"
+    ],
+    "plugins": [
+      [
+        "styled-components",
+        {
+          "ssr": true
+        }
+      ]
+    ]
+  }
+}
