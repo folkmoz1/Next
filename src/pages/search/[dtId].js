@@ -78,8 +78,38 @@ const Place = styled.div`
         border-radius: 8px;
         box-shadow: 2px 5px 15px 0px rgba(219, 204, 193, 1);
     }
-
    `
+
+const NotData = styled.div`
+    display:flex;
+    flex-direction: column;
+    width: 60%;
+    margin: 1.6rem auto;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    
+    h1 {
+        margin: 0 0 1rem 0;
+        letter-spacing: 1rem;
+        transform: translateY(200px);
+
+    }
+    
+    button {
+        position: fixed;
+        padding: 1.2rem 1rem;
+        right: 3%;
+        bottom: 9%;
+        box-shadow: 2px 5px 15px 0px rgba(219, 204, 193, 1);
+        border-radius: 50%;
+        transition: .2s all;
+        
+        &:hover {
+            transform: translateY(-8px)
+        }
+    }
+`
 
 
 const DetailId = () => {
@@ -99,6 +129,12 @@ const DetailId = () => {
 
     function onClick() {
         router.back()
+    }
+
+    function onLoad() {
+        setTimeout(() => {
+            router.push('/search')
+        },2000)
     }
 
     return (
@@ -121,7 +157,12 @@ const DetailId = () => {
                         </div>
                         <button onClick={onClick} type={"button"}>Back</button>
                     </DetailComp>
-                ) : <p>Loading</p>
+                ) : (
+                    <NotData>
+                        <h1>ไม่มีข้อมูล....</h1>
+                        <button onClick={onClick} type={"button"}>Back</button>
+                    </NotData>
+                )
             }
         </section>
     );
