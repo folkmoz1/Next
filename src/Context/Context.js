@@ -12,7 +12,7 @@ const GlobalProvider = ({ children }) => {
         const res = await axios.get(`https://tatapi.tourismthailand.org/tatapi/v5/places/search`, {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
-                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
+                'Authorization': `Bearer ${process.env.apiKey}`,
                 'Accept-Language': 'th'
             },
             params: {
@@ -36,7 +36,7 @@ const GlobalProvider = ({ children }) => {
         const res = await axios.get(`https://tatapi.tourismthailand.org/tatapi/v5/attraction/${params}`,{
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
-                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
+                'Authorization': `Bearer ${process.env.apiKey}`,
                 'Accept-Language': 'th'
             }
         }).then(res => {
