@@ -118,7 +118,7 @@ export const getServerSideProps = async ({res,query:{ dtId }}) => {
     const response = await axios.get(`https://tatapi.tourismthailand.org/tatapi/v5/attraction/${dtId}`,{
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
-            'Authorization': `Bearer ${process.env.apiKey}`,
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
             'Accept-Language': 'th'
         }
     })
