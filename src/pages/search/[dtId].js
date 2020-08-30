@@ -1,8 +1,7 @@
-import React from 'react';
-import axios from 'axios';
-import styled from "styled-components";
+import React,{ useContext, useState, useEffect} from 'react';
+import { GlobalContext } from "../../Context/Context";
 import { useRouter } from "next/router";
-import {error} from "next/dist/build/output/log";
+import styled from "styled-components";
 
 const DetailComp = styled.div`
     display:flex;
@@ -83,60 +82,50 @@ const Place = styled.div`
    `
 
 
-const DetailId = ({ data }) => {
+const DetailId = () => {
     const router = useRouter();
+    const { dtId } = router.query;
+    const { resultDetail,setResultDetail,apiDetail } = useContext(GlobalContext);
+
+
+    useEffect(() => {
+        console.log(router, router.query.dtId)
+        const fetch = async () => {
+            const res = await apiDetail(dtId);
+            setResultDetail(res);
+        }
+        fetch();
+    },[dtId])
 
     function onClick() {
         router.back()
     }
 
-
     return (
         <section>
-            <DetailComp>
-                <h1>This : {data.place_name}</h1>
-                <div style={{display:'flex'}}>
-                    {
-                        data.web_picture_urls.map((img,index) => {
-                            return <Place key={index}>
-                                <img src={img} alt=""/>
-                            </Place>
-                        })
-                    }
-                </div>
-                <div>
-                    <p>{data.place_information.detail}</p>
-                </div>
-                <button onClick={onClick} type={"button"}>Back</button>
-            </DetailComp>
+            {
+                resultDetail ? (
+                    <DetailComp>
+                        <h1>This : {resultDetail.place_name}</h1>
+                        <div style={{display:'flex'}}>
+                            {
+                                resultDetail.web_picture_urls.map((img,index) => {
+                                    return <Place key={index}>
+                                        <img src={img} alt=""/>
+                                    </Place>
+                                })
+                            }
+                        </div>
+                        <div>
+                            <p>{resultDetail.place_information.detail}</p>
+                        </div>
+                        <button onClick={onClick} type={"button"}>Back</button>
+                    </DetailComp>
+                ) : <p>Loading</p>
+            }
         </section>
     );
 }
 
-export const getServerSideProps = async ({res,query:{ dtId }}) => {
-    let data;
-    const response = await axios.get(`https://tatapi.tourismthailand.org/tatapi/v5/attraction/${dtId}`,{
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-            'Accept-Language': 'th'
-        }
-    })
-
-    if (response.status === 404) {
-        res.end();
-    }
-
-    console.log(response.data.result)
-    data = response.data.result;
-
-
-
-    return {
-        props: {
-            data
-        }
-    }
-}
 
 export default DetailId;
