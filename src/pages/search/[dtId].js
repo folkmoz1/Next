@@ -6,32 +6,84 @@ import styled from "styled-components";
 const DetailComp = styled.div`
     display:flex;
     flex-direction: column;
-    width: 60%;
+    width: 96%;
     margin: 1.6rem auto;
     height: auto;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center;
+        
+        @media (max-width: 1400px) {
+            margin: 0;
+            width: 100%;
+        }
+    
+        @media (max-width: 568px) {
+            overflow: hidden;
+            align-items: flex-start;
+        }
     
     h1 {
         margin: 0 0 1rem 0;
+        
+        @media (max-width: 568px) {
+            text-align: center;
+            width: 100%;
+            font-size: 1.7rem;
+            margin: 2.7rem 0 1.3rem;
+            letter-spacing: 2px;
+        }
+    }
+    > div:nth-of-type(1) {
+        width: 100%;
+        
     }
     
-    > div:nth-of-type(1){
+    > div:nth-of-type(2){
         padding: 0 1rem;
         border-radius: 24px;
-        transform: translateX(-30px);
         box-shadow: 2px 5px 15px 0px rgba(219, 204, 193, 1);
+        display: flex;
+        flex-wrap: nowrap;
+        
+            @media (max-width: 568px) {
+               border-radius: 8px;
+               padding: 0 0 0 .5rem;
+               width: 100%;
+               
+               > div:nth-of-type(3) {
+                    display: none;
+               }
+            }
     }
-     > div:nth-of-type(2){
-        height: 500px;
-        width: 1400px;
-        padding: 2rem 1.2rem;
+     > div:nth-of-type(3){
+        padding: 1.4rem 1.9rem;
+        width: 100%;
+        height: 400px;
         border-radius: 24px;
-        transform: translateX(-17px);
         box-shadow: 2px 5px 15px 0px rgba(219, 204, 193, 1);
         display: flex;
         flex-flow: wrap row;
-        margin: 1rem auto;
+        margin: 1rem 0;
+        
+            @media (max-width: 1400px) {
+                width: 85%;
+            }
+        
+            @media (max-width: 568px) {
+                width: 95%;
+                transform: translateX(0);
+                margin: 1rem auto;
+                padding: 1.2rem 2rem;
+                height: auto;
+                text-align: justify;
+                letter-spacing: .8px;
+                
+                button {
+                    cursor: default;
+                }
+            }
+        
+             
     }
     
     p {
@@ -61,15 +113,31 @@ const Place = styled.div`
     border-radius: 24px;
     background: #fff;
     box-shadow: 2px 5px 15px 0px rgba(219, 204, 193, 1);
-    color: ${props => props.theme.colors.secondary};
-    text-align: center;
     cursor: pointer;
     transition: .3s ease-in-out;
     position: relative;
         &:hover {
             transform: scale(1.05);
+        }
+        
+        @media (max-width: 1400px) {
+            width: 350px;
+        }
+        @media (max-width: 1200px) {
+            width: 280px;
+        }
+        @media (max-width: 568px) {
+            width: 200px;
+            margin: 0;
+            padding: 1rem .5rem;
+            box-shadow: none;
+            background: transparent;
+            cursor: default;
             
             
+            &:hover {
+            transform: scale(1.15);
+        }
         }
     
     img {
@@ -131,19 +199,16 @@ const DetailId = () => {
         router.back()
     }
 
-    function onLoad() {
-        setTimeout(() => {
-            router.push('/search')
-        },2000)
-    }
 
     return (
         <section>
             {
                 resultDetail ? (
                     <DetailComp>
-                        <h1>This : {resultDetail.place_name}</h1>
-                        <div style={{display:'flex'}}>
+                        <div>
+                            <h1>{resultDetail.place_name}</h1>
+                        </div>
+                        <div>
                             {
                                 resultDetail.web_picture_urls.map((img,index) => {
                                     return <Place key={index}>
@@ -159,7 +224,7 @@ const DetailId = () => {
                     </DetailComp>
                 ) : (
                     <NotData>
-                        <h1>ไม่มีข้อมูล....</h1>
+                        <h1>ไม่พบข้อมูล....</h1>
                         <button onClick={onClick} type={"button"}>Back</button>
                     </NotData>
                 )
