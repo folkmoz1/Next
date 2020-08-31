@@ -5,6 +5,8 @@ import Link from "next/link";
 import styled from "styled-components";
 import { GlobalContext } from "../../Context/Context";
 
+import Aos from 'aos';
+
 const SearchComp = styled.div`
     display:flex;
     flex-direction: column;
@@ -13,6 +15,11 @@ const SearchComp = styled.div`
     height: auto;
     align-items: flex-start;
     justify-content: flex-start;
+    
+        @media (max-width: 568px) {
+            align-items: center;
+            width: 100%;
+        }
     
     h1 {
         margin: 0 0 1rem 0;
@@ -23,6 +30,35 @@ const SearchComp = styled.div`
         border-radius: 24px;
         transform: translateX(-30px);
         box-shadow: 2px 5px 15px 0px rgba(219, 204, 193, 1);
+        
+            @media (max-width: 568px) {
+                width: 100%;
+                height: 65px;
+                display: inline-flex;
+                border-radius: 0;
+                z-index: 1524;
+                transform: translateX(0);
+                position: sticky;
+                top:0;
+                background: #fff;
+                box-shadow: none;
+                border-bottom: 1px solid #dddfe2;
+                
+                input {
+                    width:50%;
+                    text-align: center;
+                    margin: 0;
+                    transition: .2s ease;
+                    position: relative;
+                    
+                    
+                    &:not(:placeholder-shown) {
+                        color: #fa05a4;
+                        font-size: 1rem;
+                    }
+
+                }
+            }
     }
      > div:nth-of-type(2){
         padding: 0 1rem;
@@ -32,6 +68,13 @@ const SearchComp = styled.div`
         display: flex;
         flex-flow: wrap row;
         margin: 1rem 0;
+        
+            @media (max-width: 568px) {
+                box-shadow: none;
+                transform: translateX(0);
+            }
+        
+             
     }
     
     input {
@@ -39,6 +82,8 @@ const SearchComp = styled.div`
         margin: .5rem 0;
         padding: .5rem 1rem;
         background: transparent;
+        font-size: 1.2rem;
+
         &:focus {
             outline: none;
             color: tomato;
@@ -59,12 +104,28 @@ const Place = styled.div`
     cursor: pointer;
     transition: .3s ease-in-out;
     position: relative;
+    
         &:hover {
             transform: scale(1.05);
+            
+            p {
+                
+            }
             
             em {
                 opacity: 1;
             }
+        }
+        @media (max-width: 1568px) {
+            width: 380px;
+            cursor: default;
+            
+            em {
+                font-size: .8rem;
+            }
+        }
+        @media (max-width: 568px) {
+            width: 330px;
         }
     
     > div {
@@ -105,7 +166,10 @@ function Index() {
 
     const { resultSearch,apiSearch,setResultSearch } = useContext(GlobalContext)
 
-
+    useEffect(() => {
+        Aos.init();
+        Aos.refresh();
+    },[]);
 
     useEffect(() => {
         if (search) {
@@ -155,14 +219,14 @@ function Index() {
                 />
             </div>
             <div>
-            { resultSearch ? resultSearch.slice(0,30).map(place => {
+            { resultSearch ? resultSearch.slice(0,30).map((place, index) => {
                 return(
                     <Link href={{pathname: '/search/[dtId]'}} as={{pathname:`/search/${place.place_id}`}} key={place.place_id}>
-                            <Place title={'รายละเอียด'} >
+                            <Place title={'รายละเอียด'} data-aos={'fade-up'} data-aos-duration={`1s`} >
                                 <h2>{place.place_name}</h2>
                             { place.thumbnail_url && <div><img src={place.thumbnail_url} /></div> }
                                 <p>ตำบล : {place.location.sub_district}</p>
-                                <em>ประเภท : {place.category_code} <span>{place.category_description}</span></em>
+                                <em>ประเภท : {place.category_code} </em>
                             </Place>
                     </Link>
 
