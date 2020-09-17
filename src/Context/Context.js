@@ -33,8 +33,8 @@ const GlobalProvider = ({ children }) => {
         return res;
     }
 
-    async function apiDetail(params) {
-        const res = await axios.get(`https://tatapi.tourismthailand.org/tatapi/v5/attraction/${params}`,{
+    async function apiDetail(params,categories) {
+        const res = await axios.get(`https://tatapi.tourismthailand.org/tatapi/v5/${categories}/${params}`,{
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
                 'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,

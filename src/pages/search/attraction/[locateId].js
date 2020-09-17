@@ -1,20 +1,41 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import axios, { get } from 'axios';
 import { useRouter } from "next/router";
 
 import {NotData_component} from "../../../components/NotData_component";
 import {Detail_Component} from "../../../components/Deatail_Component";
+import {GlobalContext} from "../../../Context/Context";
 
-const LocateId = ({ result }) => {
-    const router = useRouter();
+const LocateId = () => {
+    const { locateId } = useRouter().query;
+    const { apiDetail } = useContext(GlobalContext)
+    const [result, setResult] = useState(null)
+
+    useEffect(() => {
+        let active = true
+        if (active) {
+            const fetch = async () => {
+                const res = await apiDetail(locateId,"attraction")
+                setResult(res)
+                console.log(res)
+            }
+
+            fetch()
+        }
+
+        return () => {
+            active = false
+        }
+    },[locateId])
+
 
     return (
         <section>
             {
-                router.isFallback ? (
+                !result ? (
                     <NotData_component />
                 ) : (
-                    <Detail_Component  result={result}/>
+                    <Detail_Component result={result} />
                 )
             }
         </section>
@@ -22,7 +43,8 @@ const LocateId = ({ result }) => {
     );
 }
 
-export const getStaticPaths = async () => {
+
+/*export const getStaticPaths = async () => {
 
     return {
         paths:[
@@ -30,8 +52,9 @@ export const getStaticPaths = async () => {
             ],
         fallback: true
     }
-}
+}*/
 
+/*
 export const getStaticProps = async ({ params: {locateId} }) => {
     let result;
 
@@ -59,5 +82,6 @@ export const getStaticProps = async ({ params: {locateId} }) => {
     }
 }
 
+*/
 
 export default LocateId;
