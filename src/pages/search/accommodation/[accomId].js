@@ -1,5 +1,5 @@
 import React from 'react';
-import { get } from 'axios';
+import axios, { get } from 'axios';
 import { useRouter } from "next/router";
 import { NotData_component } from "../../../components/NotData_component";
 import {Detail_Component} from "../../../components/Deatail_Component";
@@ -35,22 +35,23 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async ({ params: { accomId } }) => {
-    console.log(accomId)
+    let result;
 
-    const res = await get(`https://tatapi.tourismthailand.org/tatapi/v5/accommodation/${accomId}`,{
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
-            'Accept-Language': 'th'
-        }
-    }).then(res => {
-        return res.data.result
-    }).catch(err => {
+    try {
+        const res = await get(`https://tatapi.tourismthailand.org/tatapi/v5/accommodation/${accomId}`,{
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
+                'Accept-Language': 'th'
+            }
+        })
+
+        if (!res) throw new Error('Cannot fetch data.')
+
+        result = res.data.result
+    } catch (err) {
         console.log(err)
-    })
-
-    const result = await res;
-
+    }
 
     return {
         props: {

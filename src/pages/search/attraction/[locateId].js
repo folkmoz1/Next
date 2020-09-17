@@ -33,21 +33,23 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async ({ params: {locateId} }) => {
-    console.log(locateId)
+    let result;
 
-    const res = await get(`https://tatapi.tourismthailand.org/tatapi/v5/attraction/${locateId}`,{
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
-            'Accept-Language': 'th'
-        }
-    }).then(res => {
-        return res.data.result
-    }).catch(err => {
+    try {
+        const res = await get(`https://tatapi.tourismthailand.org/tatapi/v5/attraction/${locateId}`,{
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
+                'Accept-Language': 'th'
+            }
+        })
+
+        if (!res) throw new Error('Cannot fetch data.')
+
+        result = res.data.result
+    } catch (err) {
         console.log(err)
-    })
-
-    const result =  res;
+    }
 
 
     return {
