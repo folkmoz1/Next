@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import  { NotData } from "../../public/styles/detail.styles";
+import { CircularProgress } from "@material-ui/core";
 
 
 export const NotData_component = () => {
@@ -12,7 +13,7 @@ export const NotData_component = () => {
 
     return (
         <NotData>
-            <h1>Loading....</h1>
+            <CircularProgress  color={"secondary"} variant={"determinate"}/>
             <button onClick={onClick} type={"button"}>Back</button>
         </NotData>
     );
