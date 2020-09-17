@@ -40,6 +40,7 @@ export default function blog({user})  {
 export const getStaticPaths = async () => {
     const users = getUsers;
     const paths = await users.map(user => ({params:{userId: user.id.toString()}}))
+    console.log(paths)
 
     return {
         paths,

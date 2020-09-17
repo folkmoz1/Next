@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from "next/head";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "styled-components";
 
 //import module
@@ -23,7 +24,7 @@ function _app({Component, pageProps}) {
             <GlobalProvider>
                 <Component {...pageProps}/>
             </GlobalProvider>
-            <GlobalStyles/>
+            <CssBaseline />
         </ThemeProvider>
     );
 }

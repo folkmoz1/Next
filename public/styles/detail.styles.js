@@ -1,9 +1,7 @@
-import React,{ useContext, useState, useEffect} from 'react';
-import { GlobalContext } from "../../Context/Context";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 
-const DetailComp = styled.div`
+
+export const DetailComp = styled.div`
     display:flex;
     flex-direction: column;
     width: 96%;
@@ -44,15 +42,20 @@ const DetailComp = styled.div`
         box-shadow: 2px 5px 15px 0px rgba(219, 204, 193, 1);
         display: flex;
         flex-wrap: nowrap;
-        
-            @media (max-width: 568px) {
-               border-radius: 8px;
-               padding: 0 0 0 .5rem;
-               width: 100%;
+            
+            @media (max-width: 900px) {
+                justify-content: center;
+                align-items: center;
                
                > div:nth-of-type(3) {
                     display: none;
                }
+            }
+            
+            @media (max-width: 568px) {
+               border-radius: 8px;
+               width: 100%;
+               
             }
     }
      > div:nth-of-type(3){
@@ -68,15 +71,16 @@ const DetailComp = styled.div`
             @media (max-width: 1400px) {
                 width: 85%;
             }
+            @media (max-width: 1100px) {
+                padding: 1.2rem 2rem;
+                height: auto;
+                margin: 1rem auto;
+            }
         
             @media (max-width: 568px) {
                 width: 95%;
                 transform: translateX(0);
-                margin: 1rem auto;
-                padding: 1.2rem 2rem;
-                height: auto;
-                text-align: justify;
-                letter-spacing: .8px;
+                letter-spacing: .9px;
                 
                 button {
                     cursor: default;
@@ -105,50 +109,75 @@ const DetailComp = styled.div`
     }
 `
 
-const Place = styled.div`
-    width: 450px;
+export const Place = styled.div`
+    width: 400px;
     height: auto;
     padding: 1rem;
-    margin: 1.2rem .5rem;
+    margin: 1.2rem auto;
     border-radius: 24px;
     background: #fff;
     box-shadow: 2px 5px 15px 0px rgba(219, 204, 193, 1);
+    color: ${props => props.theme.colors.secondary};
+    text-align: center;
     cursor: pointer;
     transition: .3s ease-in-out;
     position: relative;
+    
         &:hover {
             transform: scale(1.05);
+            
+            p {
+                
+            }
+            
+            em {
+                opacity: 1;
+            }
         }
-        
-        @media (max-width: 1400px) {
-            width: 350px;
-        }
-        @media (max-width: 1200px) {
-            width: 280px;
+        @media (max-width: 1568px) {
+            width: 380px;
+            
+            em {
+                font-size: .8rem;
+            }
         }
         @media (max-width: 568px) {
-            width: 200px;
-            margin: 0;
-            padding: 1rem .5rem;
-            box-shadow: none;
-            background: transparent;
+            width: 330px;
             cursor: default;
-            
-            
-            &:hover {
-            transform: scale(1.15);
         }
-        }
+    
+    > div {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+        float: right;
+    }
     
     img {
         width: 100%;
         height: 100%;
-        border-radius: 8px;
+        border-radius: 50%;
         box-shadow: 2px 5px 15px 0px rgba(219, 204, 193, 1);
     }
-   `
+    
+    h2 {
+        margin: 1.2rem 0 1rem 0;
+    }
+    
+    p {
+        margin: 2.3rem;
+    }
+    
+    em {
+        transition: .2s ease-in;
+        opacity: 0;
+        position: absolute;
+        bottom: 15%;
+        left: 5%;
+    }
+`
 
-const NotData = styled.div`
+export const NotData = styled.div`
     display:flex;
     flex-direction: column;
     width: 60%;
@@ -161,7 +190,6 @@ const NotData = styled.div`
         margin: 0 0 1rem 0;
         letter-spacing: 1rem;
         transform: translateY(200px);
-
     }
     
     button {
@@ -180,58 +208,4 @@ const NotData = styled.div`
 `
 
 
-const DetailId = () => {
-    const router = useRouter();
-    const { dtId } = router.query;
-    const { resultDetail,setResultDetail,apiDetail } = useContext(GlobalContext);
 
-
-    useEffect(() => {
-        console.log(router, router.query.dtId)
-        const fetch = async () => {
-            const res = await apiDetail(dtId);
-            setResultDetail(res);
-        }
-        fetch();
-    },[dtId])
-
-    function onClick() {
-        router.back()
-    }
-
-
-    return (
-        <section>
-            {
-                resultDetail ? (
-                    <DetailComp>
-                        <div>
-                            <h1>{resultDetail.place_name}</h1>
-                        </div>
-                        <div>
-                            {
-                                resultDetail.web_picture_urls.map((img,index) => {
-                                    return <Place key={index}>
-                                        <img src={img} alt=""/>
-                                    </Place>
-                                })
-                            }
-                        </div>
-                        <div>
-                            <p>{resultDetail.place_information.detail}</p>
-                        </div>
-                        <button onClick={onClick} type={"button"}>Back</button>
-                    </DetailComp>
-                ) : (
-                    <NotData>
-                        <h1>ไม่พบข้อมูล....</h1>
-                        <button onClick={onClick} type={"button"}>Back</button>
-                    </NotData>
-                )
-            }
-        </section>
-    );
-}
-
-
-export default DetailId;

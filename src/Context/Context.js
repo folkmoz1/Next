@@ -8,16 +8,17 @@ const GlobalProvider = ({ children }) => {
     const [resultSearch, setResultSearch] = useState(null);
     const [resultDetail, setResultDetail] = useState(null);
 
-     async function apiSearch(province,keyword) {
+     async function apiSearch(province,keyword,categories) {
         const res = await axios.get(`https://tatapi.tourismthailand.org/tatapi/v5/places/search`, {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
-                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
                 'Accept-Language': 'th'
             },
             params: {
                 keyword: `${keyword}`,
                 location: "13.6904831,100.5226014",
+                categories: `${categories}`,
                 provinceName: `${province}`
 
             }
@@ -36,7 +37,7 @@ const GlobalProvider = ({ children }) => {
         const res = await axios.get(`https://tatapi.tourismthailand.org/tatapi/v5/attraction/${params}`,{
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
-                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
                 'Accept-Language': 'th'
             }
         }).then(res => {
